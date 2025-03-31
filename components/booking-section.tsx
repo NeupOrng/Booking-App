@@ -31,7 +31,7 @@ export default function BookingSection() {
 
   return (
     <motion.section
-      className="container mx-auto py-12 px-0 max-w-[1080px]"
+      className="container mx-auto pb-12 md:py-12 px-0 max-w-[1240px]"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
@@ -40,10 +40,10 @@ export default function BookingSection() {
       <div className="flex flex-col md:flex-row md:items-start md:justify-start px-0 md:space-x-8">
         {isDesktop ? (
           <>
-            <motion.div className="w-full md:w-1/2" variants={itemVariants}>
+            <motion.div className="w-full md:w-2/5" variants={itemVariants}>
               <ImageDisplay />
             </motion.div>
-            <motion.div className="w-full sticky top-2 md:w-1/2 px-3 mt-8 md:mt-0" variants={itemVariants}>
+            <motion.div className="w-full sticky top-2 md:w-3/5 px-3 mt-8 md:mt-0" variants={itemVariants}>
               <RegistrationForm />
             </motion.div>
           </>
