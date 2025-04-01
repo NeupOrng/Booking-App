@@ -76,23 +76,25 @@ export default function RegistrationForm() {
   };
 
   return (
-    <Card>
+    <Card className="bg-pink-50 transition-all duration-500">
       <CardHeader>
-        <CardTitle className="text-4xl md:text-5xl">Book Your Event</CardTitle>
-        <CardHeader className="text-2xl md:text-3xl font-bold font-serif ml-16 md:ml-24">$69.00</CardHeader>
-        <CardDescription className="text-lg text-gray-600">
+        <CardTitle className="text-4xl text-center md:text-left md:text-5xl text-[#1150ab] font-bold">Book Your Event</CardTitle>
+        <CardHeader className="text-2xl md:text-3xl font-bold text-center md:text-left md:ml-24 text-[#d54783]">$69.00</CardHeader>
+        <CardDescription className="text-lg text-[#d54783]">
           Select a date and time slot to reserve your spot
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="date" className="font-bold text-lg">Date</Label>
+          <div className="space-y-2 bg-pink-50">
+            <div className="w-full text-center md:text-left">
+              <Label htmlFor="date" className="font-bold text-lg">Date</Label>
+            </div>
             <Select value={selectedDate} onValueChange={setSelectedDate}>
-              <SelectTrigger className="text-lg" id="date">
+              <SelectTrigger className="text-lg bg-pink-50" id="date">
                 <SelectValue placeholder="Select an available date" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-pink-50">
                 {availableDates.map((date) => (
                   <SelectItem key={date.value} value={date.value}>
                     {date.label}
@@ -103,22 +105,24 @@ export default function RegistrationForm() {
           </div>
 
           <div className="space-y-2">
-            <Label className="font-bold text-lg">Timeslot</Label>
+            <div className="w-full text-center md:text-left">
+              <Label className="font-bold text-lg">Timeslot</Label>
+            </div>
             <div className="flex flex-wrap gap-2">
               {timeSlots.map((slot) => (
                 <button
                   key={slot}
                   type="button"
-                  className={`px-4 py-2 rounded-full flex items-center justify-center gap-1 transition-colors ${
+                  className={`px-4 py-2 text-[#d54783] rounded-full flex items-center justify-center gap-1 transition-colors ${
                     selectedTimeSlot === slot
-                      ? "bg-pink-100 text-pink-800"
-                      : "bg-gray-100 hover:bg-gray-200"
+                      ? "bg-pink-100"
+                      : "text-black hover:bg-gray-200"
                   }`}
                   onClick={() => setSelectedTimeSlot(slot)}
                 >
                   {slot}
                   {selectedTimeSlot === slot && (
-                    <Check className="h-4 w-4 text-pink-800" />
+                    <Check className="h-4 w-4 text-[#d54783]" />
                   )}
                 </button>
               ))}
@@ -130,6 +134,7 @@ export default function RegistrationForm() {
             <SheetTrigger asChild>
               <Button
                 className="w-full py-4 h-16 text-xl"
+                color="#1150ab"
                 disabled={!selectedDate || !selectedTimeSlot}
               >
                 Book Now
@@ -137,7 +142,7 @@ export default function RegistrationForm() {
             </SheetTrigger>
             <SheetContent
               side={isDesktop ? "right" : "bottom"}
-              className={isDesktop ? "sm:max-w-md" : "h-[65vh]"}
+              className={isDesktop ? "sm:max-w-md bg-pink-50" : "h-[65vh] bg-pink-50"}
             >
               <SheetHeader>
                 <SheetTitle>Your Information</SheetTitle>

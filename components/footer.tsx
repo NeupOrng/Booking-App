@@ -28,7 +28,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-gray-100 pt-12 pb-8">
+    <footer className="bg-pink-50 pt-12 pb-8">
       <div className="container mx-auto px-4">
         <motion.div
           className="grid grid-cols-1 md:grid-cols-4 gap-8"

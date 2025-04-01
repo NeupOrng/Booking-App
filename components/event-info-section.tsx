@@ -28,7 +28,7 @@ export default function EventInfoSection() {
   }
 
   return (
-    <section className="bg-slate-50 py-16">
+    <section className="bg-pink-50 py-16">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -37,7 +37,7 @@ export default function EventInfoSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl font-bold">Event Information</h2>
+          <h2 className="text-4xl font-bold text-[#1150ab]">Event Information</h2>
         </motion.div>
 
         <motion.div
@@ -47,8 +47,8 @@ export default function EventInfoSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          <motion.div variants={itemVariants}>
-            <Card>
+          <motion.div variants={itemVariants} className="rounded-lg overflow-hidden border border-pink-200">
+            <Card className="bg-pink-50">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <CalendarDays className="h-5 w-5 text-primary" />
@@ -60,13 +60,13 @@ export default function EventInfoSection() {
                   Our event runs from June 1st to August 31st, 2025. We offer multiple sessions throughout the week to
                   accommodate your schedule.
                 </p>
-                <p className="mt-4 text-sm text-muted-foreground">Booking is required at least 24 hours in advance.</p>
+                <p className="mt-4 text-sm text-[#d54783]">Booking is required at least 24 hours in advance.</p>
               </CardContent>
             </Card>
           </motion.div>
 
-          <motion.div variants={itemVariants}>
-            <Card>
+          <motion.div variants={itemVariants} className="rounded-lg overflow-hidden border border-pink-200">
+            <Card className="bg-pink-50 ">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPin className="h-5 w-5 text-primary" />
@@ -77,13 +77,13 @@ export default function EventInfoSection() {
                 <p>123 Event Center</p>
                 <p>Downtown District</p>
                 <p>New York, NY 10001</p>
-                <p className="mt-4 text-sm text-muted-foreground">Free parking available for all attendees.</p>
+                <p className="mt-4 text-sm text-[#d54783]">Free parking available for all attendees.</p>
               </CardContent>
             </Card>
           </motion.div>
 
-          <motion.div variants={itemVariants}>
-            <Card>
+          <motion.div variants={itemVariants} className="rounded-lg overflow-hidden border border-pink-200">
+            <Card className="bg-pink-50">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-primary" />
@@ -95,25 +95,25 @@ export default function EventInfoSection() {
                   Our events are designed for participants of all skill levels. Each session is led by industry experts
                   with years of experience.
                 </p>
-                <p className="mt-4 text-sm text-muted-foreground">All materials and refreshments are provided.</p>
+                <p className="mt-4 text-sm text-[#d54783]">All materials and refreshments are provided.</p>
               </CardContent>
             </Card>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="md:col-span-2 lg:col-span-3">
-            <Card>
+          <motion.div variants={itemVariants} className="md:col-span-2 lg:col-span-3 overflow-hidden rounded-lg border border-pink-200">
+            <Card className="bg-pink-50">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Clock className="h-5 w-5 text-primary" />
                   Session Details
                 </CardTitle>
-                <CardDescription>What's included in each booking</CardDescription>
+                <CardDescription className="text-[#d54783]">What's included in each booking</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <h3 className="font-medium mb-2">Morning Sessions (9:00 AM - 12:00 PM)</h3>
-                    <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                    <ul className="list-disc list-inside space-y-1">
                       <li>Introduction to key concepts</li>
                       <li>Hands-on workshop</li>
                       <li>Q&A with experts</li>
@@ -122,7 +122,7 @@ export default function EventInfoSection() {
                   </div>
                   <div>
                     <h3 className="font-medium mb-2">Afternoon Sessions (1:00 PM - 5:00 PM)</h3>
-                    <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                    <ul className="list-disc list-inside space-y-1">
                       <li>Advanced techniques</li>
                       <li>Group activities</li>
                       <li>Case studies</li>
