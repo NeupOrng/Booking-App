@@ -13,11 +13,11 @@ interface PersonalInfoFormProps {
     name: string
     email: string
     phone: string
-  }
+  },
   onSubmit: (values: { name: string; email: string; phone: string }) => void
 }
 
-export default function PersonalInfoForm({ initialValues, onSubmit }: PersonalInfoFormProps) {
+export default function PersonalInfoForm({ initialValues, onSubmit}: PersonalInfoFormProps) {
   const [name, setName] = useState(initialValues.name)
   const [email, setEmail] = useState(initialValues.email)
   const [phone, setPhone] = useState(initialValues.phone)

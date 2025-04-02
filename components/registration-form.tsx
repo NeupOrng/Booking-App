@@ -1,8 +1,8 @@
 "use client";
 
-import type React from "react";
+import React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -30,33 +30,79 @@ import {
 } from "@/components/ui/sheet";
 import PersonalInfoForm from "./personal-info-form";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import axios from "@/lib/axios";
+import { EventDate, IEventDate } from "@/models/eventDate";
+import { ITimeslot, Timeslot } from "@/models/timeslot";
+import PaymentDialog from "./payment-dialog";
 
-// Sample dates (dummy data that would normally come from backend)
-const availableDates = [
-  { value: "2025-06-01", label: "June 1, 2025" },
-  { value: "2025-06-02", label: "June 2, 2025" },
-  { value: "2025-06-03", label: "June 3, 2025" },
-  { value: "2025-06-04", label: "June 4, 2025" },
-  { value: "2025-06-05", label: "June 5, 2025" },
-  { value: "2025-06-08", label: "June 8, 2025" },
-  { value: "2025-06-09", label: "June 9, 2025" },
-  { value: "2025-06-10", label: "June 10, 2025" },
-];
+export const RegistrationFormContext = React.createContext('');
 
 // Sample time slots
-const timeSlots = ["2:15pm", "4:00pm", "5:30pm", "7:00pm"];
-
 export default function RegistrationForm() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [selectedDate, setSelectedDate] = useState<string>("");
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>(
-    undefined
+  const [timeSlotsState, setTimeSlotsState] = useState<Timeslot[]>([]);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<EventDate>(
+    new EventDate({
+      id: 0,
+      documentId: "",
+      title: "",
+      date: "",
+      state: "",
+      timeslots: [],
+      price: 0,
+      qrcode: {
+        url: "",
+      },
+    })
+  );
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<Timeslot>(
+    new Timeslot({
+      id: 0,
+      documentId: "",
+      display_name: "",
+      event_time_start_at: "",
+    })
   );
   const [personalInfo, setPersonalInfo] = useState({
     name: "",
     email: "",
     phone: "",
   });
+
+  const [avaialableDateState, setAvaialableDateState] = useState<EventDate[]>(
+    []
+  );
+
+  useEffect(() => {
+    const fetchAvailableDates = async () => {
+      try {
+        console.log("fetching available dates", axios);
+        const response = await axios.get(
+          "/api/event-dates?state=open&populate=timeslots&populate=qrcode"
+        );
+        const data = response.data.data;
+        const formattedDates = data.map((date: any) => {
+          return new EventDate(date, axios.getUri());
+        });
+
+        console.log("formattedDates1", formattedDates);
+        setAvaialableDateState(formattedDates);
+
+        console.log(
+          "formattedDates2",
+          formattedDates,
+          formattedDates.length > 0
+        );
+        // Set the first date as selected if available
+      } catch (error) {
+        console.error("Error fetching available dates", error);
+      }
+    };
+
+    fetchAvailableDates();
+  }, []);
   const [isFormComplete, setIsFormComplete] = useState(false);
 
   const handlePersonalInfoSubmit = (info: {
@@ -64,100 +110,163 @@ export default function RegistrationForm() {
     email: string;
     phone: string;
   }) => {
-    setPersonalInfo(info);
-    setIsFormComplete(true);
+    try {
+      setPersonalInfo(info);
+      setIsFormComplete(true);
+      const requestBody = {
+        data: {
+          fullname: info.name,
+          phone: info.phone,
+          email: info.email,
+          paid_amount: selectedDate.price,
+          timeslot: {
+            connect: [selectedTimeSlot.documentId],
+          },
+          event_date: {
+            connect: [selectedDate.documentId],
+          },
+        },
+      };
+      const response = axios.post("/api/attendees", requestBody);
+      console.log("Booking response", response);
+    } catch (error) {
+      console.error("Error submitting personal info", error);
+    } finally {
+      setShowPaymentDialog(true);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission
     console.log({ ...personalInfo, selectedDate, selectedTimeSlot });
-    alert("Booking submitted successfully!");
   };
 
+  const handleDateChange = (value: string) => {
+    const date = avaialableDateState.find((date) => date.documentId === value);
+    if (date) {
+      setSelectedDate(date);
+      setTimeSlotsState(date.timeslots);
+      setQrCodeUrl(selectedDate.qrcodeUrl);
+      setSelectedTimeSlot(
+        new Timeslot({
+          id: 0,
+          documentId: "",
+          display_name: "",
+          event_time_start_at: "",
+        })
+      );
+    }
+  };
+
+  if (selectedDate.documentId === "" && avaialableDateState.length > 0) {
+    setSelectedDate(avaialableDateState[0]);
+    setTimeSlotsState(avaialableDateState[0].timeslots);
+    setQrCodeUrl(avaialableDateState[0].qrcodeUrl);
+    // setSelectedTimeSlot(avaialableDateState[0].timeslots[0]);
+  }
   return (
-    <Card className="bg-pink-50 transition-all duration-500">
-      <CardHeader>
-        <CardTitle className="text-4xl text-center md:text-left md:text-5xl text-[#1150ab] font-bold">Book Your Event</CardTitle>
-        <CardHeader className="text-2xl md:text-3xl font-bold text-center md:text-left md:ml-24 text-[#d54783]">$69.00</CardHeader>
-        <CardDescription className="text-lg text-[#d54783]">
-          Select a date and time slot to reserve your spot
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2 bg-pink-50">
-            <div className="w-full text-center md:text-left">
-              <Label htmlFor="date" className="font-bold text-lg">Date</Label>
-            </div>
-            <Select value={selectedDate} onValueChange={setSelectedDate}>
-              <SelectTrigger className="text-lg bg-pink-50" id="date">
-                <SelectValue placeholder="Select an available date" />
-              </SelectTrigger>
-              <SelectContent className="bg-pink-50">
-                {availableDates.map((date) => (
-                  <SelectItem key={date.value} value={date.value}>
-                    {date.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <div className="w-full text-center md:text-left">
-              <Label className="font-bold text-lg">Timeslot</Label>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {timeSlots.map((slot) => (
-                <button
-                  key={slot}
-                  type="button"
-                  className={`px-4 py-2 text-[#d54783] rounded-full flex items-center justify-center gap-1 transition-colors ${
-                    selectedTimeSlot === slot
-                      ? "bg-pink-100"
-                      : "text-black hover:bg-gray-200"
-                  }`}
-                  onClick={() => setSelectedTimeSlot(slot)}
-                >
-                  {slot}
-                  {selectedTimeSlot === slot && (
-                    <Check className="h-4 w-4 text-[#d54783]" />
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Personal Info Sheet/Drawer */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                className="w-full py-4 h-16 text-xl"
-                color="#1150ab"
-                disabled={!selectedDate || !selectedTimeSlot}
+    <RegistrationFormContext.Provider value={ qrCodeUrl }>
+      {qrCodeUrl !== "" && (
+        <PaymentDialog
+          open={showPaymentDialog}
+          onOpenChange={setShowPaymentDialog}
+        />
+      )}
+      <Card className="bg-pink-50 transition-all duration-500">
+        <CardHeader>
+          <CardTitle className="text-4xl text-center md:text-left md:text-5xl text-[#1150ab] font-bold">
+            Book Your Event
+          </CardTitle>
+          <CardHeader className="text-2xl md:text-3xl font-bold text-center md:text-left md:ml-24 text-[#d54783]">
+            ${selectedDate.priceForDisplay}
+          </CardHeader>
+          <CardDescription className="text-lg text-[#d54783]">
+            Select a date and time slot to reserve your spot
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2 bg-pink-50">
+              <div className="w-full text-center md:text-left">
+                <Label htmlFor="date" className="font-bold text-lg">
+                  Date
+                </Label>
+              </div>
+              <Select
+                value={selectedDate.documentId}
+                onValueChange={handleDateChange}
               >
-                Book Now
-              </Button>
-            </SheetTrigger>
-            <SheetContent
-              side={isDesktop ? "right" : "bottom"}
-              className={isDesktop ? "sm:max-w-md bg-pink-50" : "h-[65vh] bg-pink-50"}
-            >
-              <SheetHeader>
-                <SheetTitle>Your Information</SheetTitle>
-                <SheetDescription>
-                  Please provide your contact details to complete the booking.
-                </SheetDescription>
-              </SheetHeader>
-              <PersonalInfoForm
-                initialValues={personalInfo}
-                onSubmit={handlePersonalInfoSubmit}
-              />
-            </SheetContent>
-          </Sheet>
-        </form>
-      </CardContent>
-    </Card>
+                <SelectTrigger className="text-lg bg-pink-50" id="date">
+                  <SelectValue placeholder="Select an available date" />
+                </SelectTrigger>
+                <SelectContent className="bg-pink-50">
+                  {avaialableDateState.map((date) => (
+                    <SelectItem key={date.documentId} value={date.documentId}>
+                      {date.titleForDisplay}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <div className="w-full text-center md:text-left">
+                <Label className="font-bold text-lg">Timeslot</Label>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {timeSlotsState.map((slot) => (
+                  <button
+                    key={slot.documentId}
+                    type="button"
+                    className={`px-4 py-2 text-[#d54783] rounded-full flex items-center justify-center gap-1 transition-colors ${
+                      selectedTimeSlot?.documentId === slot.documentId
+                        ? "bg-pink-100"
+                        : "text-black hover:bg-gray-200"
+                    }`}
+                    onClick={() => setSelectedTimeSlot(slot)}
+                  >
+                    {slot.display_name}
+                    {selectedTimeSlot?.documentId === slot.documentId && (
+                      <Check className="h-4 w-4 text-[#d54783]" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Personal Info Sheet/Drawer */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  className="w-full py-4 h-16 text-xl"
+                  color="#1150ab"
+                  disabled={!selectedDate || !selectedTimeSlot.isSelected}
+                >
+                  Book Now
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side={isDesktop ? "right" : "bottom"}
+                className={
+                  isDesktop ? "sm:max-w-md bg-pink-50" : "h-[65vh] bg-pink-50"
+                }
+              >
+                <SheetHeader>
+                  <SheetTitle>Your Information</SheetTitle>
+                  <SheetDescription>
+                    Please provide your contact details to complete the booking.
+                  </SheetDescription>
+                </SheetHeader>
+                <PersonalInfoForm
+                  initialValues={personalInfo}
+                  onSubmit={handlePersonalInfoSubmit}
+                />
+              </SheetContent>
+            </Sheet>
+          </form>
+        </CardContent>
+      </Card>
+    </RegistrationFormContext.Provider>
   );
 }
