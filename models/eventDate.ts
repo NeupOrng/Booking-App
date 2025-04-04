@@ -8,6 +8,7 @@ export interface IEventDate {
     state: string;
     timeslots: ITimeslot[];
     price: number;
+    telegram: string;
     qrcode: {
         url: string;
     }
@@ -21,6 +22,7 @@ export class EventDate implements IEventDate {
     state: string;
     timeslots: Timeslot[];
     price: number;
+    telegram: string;
     qrcode: {
         url: string;
     };
@@ -33,6 +35,7 @@ export class EventDate implements IEventDate {
         this.state = data.state;
         this.timeslots = data.timeslots.map((timeslot) => new Timeslot(timeslot)); 
         this.price = data.price;
+        this.telegram = data.telegram;
         this.qrcode = data.qrcode;
         this.qrcode.url = baseUrl + this.qrcode.url;
     }

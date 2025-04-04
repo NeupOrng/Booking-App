@@ -1,15 +1,17 @@
 import { useContext, useState } from "react";
-import { RegistrationFormContext } from "./registration-form";
 
-export default function QRCode() {
-  const registrationFormContext = useContext(RegistrationFormContext);
+interface QRCodeProps {
+    qrcodeUrl: string;
+}
+
+export default function QRCode({ qrcodeUrl }: QRCodeProps) {
+  const [qrCodeUrlState, setQrCodeUrlState] = useState<string>(qrcodeUrl);
   return (
     <div className="relative w-full h-full">
-        qrcode { registrationFormContext }
       <img
-        src={registrationFormContext}
+        src={qrCodeUrlState}
         alt="QR Code"
-        className="w-full h-full object-cover"
+        className="max-w-full object-cover"
       />
     </div>
   );

@@ -34,14 +34,14 @@ import axios from "@/lib/axios";
 import { EventDate, IEventDate } from "@/models/eventDate";
 import { ITimeslot, Timeslot } from "@/models/timeslot";
 import PaymentDialog from "./payment-dialog";
-
-export const RegistrationFormContext = React.createContext('');
+import { set } from "react-hook-form";
 
 // Sample time slots
 export default function RegistrationForm() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [timeSlotsState, setTimeSlotsState] = useState<Timeslot[]>([]);
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
+  const [telegramUrl, setTelegramUrl] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<EventDate>(
     new EventDate({
       id: 0,
@@ -51,6 +51,7 @@ export default function RegistrationForm() {
       state: "",
       timeslots: [],
       price: 0,
+      telegram: "",
       qrcode: {
         url: "",
       },
@@ -71,9 +72,7 @@ export default function RegistrationForm() {
     phone: "",
   });
 
-  const [avaialableDateState, setAvaialableDateState] = useState<EventDate[]>(
-    []
-  );
+  const [avaialableDateState, setAvaialableDateState] = useState<EventDate[]>([]);
 
   useEffect(() => {
     const fetchAvailableDates = async () => {
@@ -148,6 +147,7 @@ export default function RegistrationForm() {
       setSelectedDate(date);
       setTimeSlotsState(date.timeslots);
       setQrCodeUrl(selectedDate.qrcodeUrl);
+      setTelegramUrl(date.telegram);
       setSelectedTimeSlot(
         new Timeslot({
           id: 0,
@@ -163,14 +163,17 @@ export default function RegistrationForm() {
     setSelectedDate(avaialableDateState[0]);
     setTimeSlotsState(avaialableDateState[0].timeslots);
     setQrCodeUrl(avaialableDateState[0].qrcodeUrl);
+    setTelegramUrl(avaialableDateState[0].telegram);
     // setSelectedTimeSlot(avaialableDateState[0].timeslots[0]);
   }
   return (
-    <RegistrationFormContext.Provider value={ qrCodeUrl }>
+    <>
       {qrCodeUrl !== "" && (
         <PaymentDialog
           open={showPaymentDialog}
           onOpenChange={setShowPaymentDialog}
+          qrcodeUrl={qrCodeUrl}
+          telegramUrl={telegramUrl}
         />
       )}
       <Card className="bg-pink-50 transition-all duration-500">
@@ -267,6 +270,6 @@ export default function RegistrationForm() {
           </form>
         </CardContent>
       </Card>
-    </RegistrationFormContext.Provider>
+    </>
   );
 }
