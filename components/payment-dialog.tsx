@@ -53,7 +53,7 @@ export default function PaymentDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col items-center justify-center py-4">
+        <div className="flex flex-col items-center justify-center">
           {/* QR Code */}
           <div className="bg-white p-4 rounded-lg shadow-sm mb-4 border">
             <div className="w-[300px] h-[500px] overflow-hidden">
@@ -66,7 +66,7 @@ export default function PaymentDialog({
             support.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <div className="flex flex-row gap-3 w-full justify-center">
             <button
               onClick={handleDownloadQRCode}
               className="text-sm flex items-center justify-center gap-2 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors"

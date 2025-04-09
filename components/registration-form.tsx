@@ -34,7 +34,7 @@ import axios from "@/lib/axios";
 import { EventDate, IEventDate } from "@/models/eventDate";
 import { ITimeslot, Timeslot } from "@/models/timeslot";
 import PaymentDialog from "./payment-dialog";
-import { set } from "react-hook-form";
+import { eventDateBuilder } from "@/lib/utils";
 
 // Sample time slots
 export default function RegistrationForm() {
@@ -51,10 +51,7 @@ export default function RegistrationForm() {
       state: "",
       timeslots: [],
       price: 0,
-      telegram: "",
-      qrcode: {
-        url: "",
-      },
+      scheduleDocumentId: "",
     })
   );
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
@@ -66,41 +63,51 @@ export default function RegistrationForm() {
       event_time_start_at: "",
     })
   );
-  const [personalInfo, setPersonalInfo] = useState({
+  const initialPersonalInfo = {
     name: "",
     email: "",
     phone: "",
-  });
+  }
 
   const [avaialableDateState, setAvaialableDateState] = useState<EventDate[]>([]);
 
+  const fetchAvailableDates = async () => {
+    try {
+      console.log("fetching available dates", axios);
+      const response = await axios.get(
+        "/api/event-dates?state=open&populate[schedules][populate]=timeslots"
+      );
+      const data = response.data.data;
+      const formattedDates = eventDateBuilder(data);
+
+      console.log("formattedDates1", formattedDates);
+      setAvaialableDateState(formattedDates);
+
+      console.log(
+        "formattedDates2",
+        formattedDates,
+        formattedDates.length > 0
+      );
+      // Set the first date as selected if available
+    } catch (error) {
+      console.error("Error fetching available dates", error);
+    }
+  };
+  const fetchConfig = async () => {
+    try {
+      const response = await axios.get("/api/config?populate=payment_qr_code");
+      const data = response.data.data;
+      console.log("Config data", data);
+      setQrCodeUrl(axios.getUri() + data.payment_qr_code.url);
+      setTelegramUrl(data.telegram_url);
+    } catch (error) {
+      console.error("Error fetching config", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchAvailableDates = async () => {
-      try {
-        console.log("fetching available dates", axios);
-        const response = await axios.get(
-          "/api/event-dates?state=open&populate=timeslots&populate=qrcode"
-        );
-        const data = response.data.data;
-        const formattedDates = data.map((date: any) => {
-          return new EventDate(date, axios.getUri());
-        });
-
-        console.log("formattedDates1", formattedDates);
-        setAvaialableDateState(formattedDates);
-
-        console.log(
-          "formattedDates2",
-          formattedDates,
-          formattedDates.length > 0
-        );
-        // Set the first date as selected if available
-      } catch (error) {
-        console.error("Error fetching available dates", error);
-      }
-    };
-
     fetchAvailableDates();
+    fetchConfig();
   }, []);
   const [isFormComplete, setIsFormComplete] = useState(false);
 
@@ -110,7 +117,6 @@ export default function RegistrationForm() {
     phone: string;
   }) => {
     try {
-      setPersonalInfo(info);
       setIsFormComplete(true);
       const requestBody = {
         data: {
@@ -123,6 +129,9 @@ export default function RegistrationForm() {
           },
           event_date: {
             connect: [selectedDate.documentId],
+          },
+          schedule: {
+            connect: [selectedDate.scheduleDocumentId],
           },
         },
       };
@@ -137,17 +146,13 @@ export default function RegistrationForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log({ ...personalInfo, selectedDate, selectedTimeSlot });
   };
 
   const handleDateChange = (value: string) => {
-    const date = avaialableDateState.find((date) => date.documentId === value);
+    const date = avaialableDateState.find((date) => date.keyForSelect === value);
     if (date) {
       setSelectedDate(date);
       setTimeSlotsState(date.timeslots);
-      setQrCodeUrl(selectedDate.qrcodeUrl);
-      setTelegramUrl(date.telegram);
       setSelectedTimeSlot(
         new Timeslot({
           id: 0,
@@ -162,8 +167,6 @@ export default function RegistrationForm() {
   if (selectedDate.documentId === "" && avaialableDateState.length > 0) {
     setSelectedDate(avaialableDateState[0]);
     setTimeSlotsState(avaialableDateState[0].timeslots);
-    setQrCodeUrl(avaialableDateState[0].qrcodeUrl);
-    setTelegramUrl(avaialableDateState[0].telegram);
     // setSelectedTimeSlot(avaialableDateState[0].timeslots[0]);
   }
   return (
@@ -197,7 +200,7 @@ export default function RegistrationForm() {
                 </Label>
               </div>
               <Select
-                value={selectedDate.documentId}
+                value={selectedDate.keyForSelect}
                 onValueChange={handleDateChange}
               >
                 <SelectTrigger className="text-lg bg-pink-50" id="date">
@@ -205,7 +208,7 @@ export default function RegistrationForm() {
                 </SelectTrigger>
                 <SelectContent className="bg-pink-50">
                   {avaialableDateState.map((date) => (
-                    <SelectItem key={date.documentId} value={date.documentId}>
+                    <SelectItem key={date.keyForSelect} value={date.keyForSelect}>
                       {date.titleForDisplay}
                     </SelectItem>
                   ))}
@@ -262,7 +265,7 @@ export default function RegistrationForm() {
                   </SheetDescription>
                 </SheetHeader>
                 <PersonalInfoForm
-                  initialValues={personalInfo}
+                  initialValues={initialPersonalInfo}
                   onSubmit={handlePersonalInfoSubmit}
                 />
               </SheetContent>
