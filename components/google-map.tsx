@@ -8,8 +8,8 @@ interface GoogleMapProps {
 }
 
 export default function GoogleMap({ height = "300px", className = "" }: GoogleMapProps) {
-  const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3908.8083312276676!2d104.92107717530662!3d11.565593944141472!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31095106fac12681%3A0xd76627393dc16382!2sBlue%20Pub%20(%20The%20Best%20Entertainment%20Place%20)!5e0!3m2!1sen!2skh!4v1744232650356!5m2!1sen!2skh`
-  const mapLinkUrl = `https://maps.app.goo.gl/6Kp5A23XRtf5LMi68`
+  const mapUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3908.9086995452444!2d104.9202642753066!3d11.558402644283065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310951066fe0d253%3A0xb2d6953a012fb392!2sBlue%20Espresso%20Bar!5e0!3m2!1sen!2skh!4v1744326580657!5m2!1sen!2skh`
+  const mapLinkUrl = `https://maps.app.goo.gl/D6kV3hPLjohxt5yB8`
 
   return (
     <div className={`bg-gray-200 rounded-md overflow-hidden relative group ${className}`} style={{ height }}>
