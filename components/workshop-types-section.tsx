@@ -41,12 +41,12 @@ export default function WorkshopTypesSection() {
             transition={{ duration: 0.6 }}
           >
             <h3 className="text-center md:text-left text-3xl font-bold text-[#000000] mb-6">CORPORATE WORKSHOP</h3>
-            <p className="text-gray-700 mb-8 leading-relaxed">
+            <p className="text-gray-700 leading-relaxed">
               The perfect team activity that combines collaboration, relaxation and the joy of crafting. Ignite your
               team's creativity and bond over the art of candle making.
             </p>
 
-            <div className="flex w-full justify-center md:justify-start">
+            <div className="flex w-full justify-center md:justify-start my-8">
                 <Button className="bg-[#1128ab] hover:bg-[#d54783] text-white rounded-md px-8 py-6 h-auto">CONTACT US</Button>
             </div>
           </motion.div>
@@ -62,11 +62,11 @@ export default function WorkshopTypesSection() {
             className="order-2 lg:order-1"
           >
             <h3 className="text-center md:text-left text-3xl font-bold text-black mb-6">Private Candle Party</h3>
-            <p className="text-black mb-6 leading-relaxed">
+            <p className="text-black leading-relaxed">
               Celebrating a birthday, bachelorette party, bridal shower or baby shower. Or, just looking to get a group
               of friends together for a good time. Join us for a private candle-making party!
             </p>
-            <div className="flex w-full justify-center md:justify-start">
+            <div className="flex w-full justify-center md:justify-start my-8">
                 <Button className="bg-[#1128ab] hover:bg-[#d54783] text-white rounded-md px-8 py-6 h-auto">CONTACT US</Button>
             </div>
           </motion.div>
