@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 export default function WorkshopTypesSection() {
   return (
@@ -19,8 +19,8 @@ export default function WorkshopTypesSection() {
           <div className="w-32 h-1.5 bg-[#d54783] mx-auto rounded-md my-6"></div>
         </motion.h2>
 
-         {/* Corporate Workshop */}
-         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        {/* Corporate Workshop */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -40,14 +40,24 @@ export default function WorkshopTypesSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-center md:text-left text-3xl font-bold text-[#000000] mb-6">CORPORATE WORKSHOP</h3>
+            <h3 className="text-center md:text-left text-3xl font-bold text-[#000000] mb-6">
+              CORPORATE WORKSHOP
+            </h3>
             <p className="text-gray-700 leading-relaxed">
-              The perfect team activity that combines collaboration, relaxation and the joy of crafting. Ignite your
-              team's creativity and bond over the art of candle making.
+              The perfect team activity that combines collaboration, relaxation
+              and the joy of crafting. Ignite your team's creativity and bond
+              over the art of candle making.
             </p>
 
             <div className="flex w-full justify-center md:justify-start my-8">
-                <Button className="bg-[#1128ab] hover:bg-[#d54783] text-white rounded-md px-8 py-6 h-auto">CONTACT US</Button>
+              <a
+                href="https://www.instagram.com/kandlebar.kh?igsh=Y3BxMWticHRmcHEw&utm_source=qr"
+                target="_blank"
+              >
+                <Button className="bg-[#1128ab] hover:bg-[#d54783] text-white rounded-md px-8 py-6 h-auto">
+                  CONTACT US
+                </Button>
+              </a>
             </div>
           </motion.div>
         </div>
@@ -61,13 +71,23 @@ export default function WorkshopTypesSection() {
             transition={{ duration: 0.6 }}
             className="order-2 lg:order-1"
           >
-            <h3 className="text-center md:text-left text-3xl font-bold text-black mb-6">Private Candle Party</h3>
+            <h3 className="text-center md:text-left text-3xl font-bold text-black mb-6">
+              Private Candle Party
+            </h3>
             <p className="text-black leading-relaxed">
-              Celebrating a birthday, bachelorette party, bridal shower or baby shower. Or, just looking to get a group
-              of friends together for a good time. Join us for a private candle-making party!
+              Celebrating a birthday, bachelorette party, bridal shower or baby
+              shower. Or, just looking to get a group of friends together for a
+              good time. Join us for a private candle-making party!
             </p>
             <div className="flex w-full justify-center md:justify-start my-8">
-                <Button className="bg-[#1128ab] hover:bg-[#d54783] text-white rounded-md px-8 py-6 h-auto">CONTACT US</Button>
+              <a
+                href="https://www.instagram.com/kandlebar.kh?igsh=Y3BxMWticHRmcHEw&utm_source=qr"
+                target="_blank"
+              >
+                <Button className="bg-[#1128ab] hover:bg-[#d54783] text-white rounded-md px-8 py-6 h-auto">
+                  CONTACT US
+                </Button>
+              </a>
             </div>
           </motion.div>
 
@@ -87,5 +107,5 @@ export default function WorkshopTypesSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

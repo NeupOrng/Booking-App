@@ -99,7 +99,7 @@ export default function PersonalInfoForm({ initialValues, onSubmit}: PersonalInf
 
       <div className="space-y-2">
         <Label htmlFor="phone" className={errors.phone ? "text-red-500" : ""}>
-          Phone Number
+          Telegram Number
         </Label>
         <Input
           id="phone"
@@ -109,7 +109,7 @@ export default function PersonalInfoForm({ initialValues, onSubmit}: PersonalInf
           onChange={handlePhoneChange}
           className={errors.name ? "border-red-500 bg-white" : "bg-white"}
         />
-        {errors.phone && <p className="text-xs text-red-500">Please enter a valid phone number</p>}
+        {errors.phone && <p className="text-xs text-red-500">Please enter a valid telegram number</p>}
       </div>
 
       <div className="flex flex-col md:flex-row justify-center gap-2 pt-4">
