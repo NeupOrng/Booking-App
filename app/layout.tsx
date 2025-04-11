@@ -15,7 +15,7 @@ export default function RootLayout({
         <title>Kandle Bar</title>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </head>
-      <body className={`${delius.className} bg-pink-50`}>
+      <body className={`${delius.className} bg-white`}>
         {children}
       </body>
     </html>

@@ -179,7 +179,7 @@ export default function RegistrationForm() {
           telegramUrl={telegramUrl}
         />
       )}
-      <Card className="bg-pink-50 transition-all duration-500">
+      <Card className="bg-white transition-all duration-500">
         <CardHeader>
           <CardTitle className="text-4xl text-center md:text-left md:text-5xl text-[#1150ab] font-bold">
             Book Your Event
@@ -193,7 +193,7 @@ export default function RegistrationForm() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2 bg-pink-50">
+            <div className="space-y-2 bg-white">
               <div className="w-full text-center md:text-left">
                 <Label htmlFor="date" className="font-bold text-lg">
                   Date
@@ -203,10 +203,10 @@ export default function RegistrationForm() {
                 value={selectedDate.keyForSelect}
                 onValueChange={handleDateChange}
               >
-                <SelectTrigger className="text-lg bg-pink-50" id="date">
+                <SelectTrigger className="text-lg bg-white" id="date">
                   <SelectValue placeholder="Select an available date" />
                 </SelectTrigger>
-                <SelectContent className="bg-pink-50">
+                <SelectContent className="bg-white">
                   {avaialableDateState.map((date) => (
                     <SelectItem key={date.keyForSelect} value={date.keyForSelect}>
                       {date.titleForDisplay}
@@ -255,7 +255,7 @@ export default function RegistrationForm() {
               <SheetContent
                 side={isDesktop ? "right" : "bottom"}
                 className={
-                  isDesktop ? "sm:max-w-md bg-pink-50" : "h-[65vh] bg-pink-50"
+                  isDesktop ? "sm:max-w-md bg-white" : "h-[65vh] bg-white"
                 }
               >
                 <SheetHeader>
