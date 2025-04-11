@@ -20,7 +20,7 @@ export default function WorkshopTypesSection() {
         </motion.h2>
 
         {/* Corporate Workshop */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -28,7 +28,7 @@ export default function WorkshopTypesSection() {
             transition={{ duration: 0.6 }}
           >
             <img
-              src="https://kandlebar-admin.buyemerch.com/uploads/c317d0b01cfc52718871fe8e4de76b68_f6df468eb8.jpg"
+              src="/landing/corporate-workshop.jpg"
               alt="Corporate team building workshop with people making candles together"
               className="w-full h-auto rounded-md shadow-md"
             />
@@ -99,7 +99,7 @@ export default function WorkshopTypesSection() {
             className="order-1 lg:order-2"
           >
             <img
-              src="https://kandlebar-admin.buyemerch.com/uploads/51d196f14a1f8cceb21a56e0a31bcbc9_a0ec6c25f9.jpg"
+              src="/landing/private-workshop.jpg"
               alt="Private candle party setup with crystal chandelier and elegant table setting"
               className="w-full h-auto rounded-md shadow-md"
             />

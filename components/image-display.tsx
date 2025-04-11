@@ -4,9 +4,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 const images = [
-  "https://kandlebar-admin.buyemerch.com/uploads/photo_5170683202233281946_y_bfe5ff2928.jpg",
-  "https://kandlebar-admin.buyemerch.com/uploads/photo_5170683202233281945_y_22de3168d5.jpg",
-  "https://kandlebar-admin.buyemerch.com/uploads/photo_5170683202233281947_y_fad32ef364.jpg"
+  "/landing/main-image.jpg",
+  "/landing/image-1.jpg",
+  "/landing/image-2.jpg"
 ]
 
 export default function ImageDisplay() {
