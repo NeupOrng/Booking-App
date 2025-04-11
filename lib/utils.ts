@@ -11,7 +11,6 @@ export function eventDateBuilder(data: EventDateData[]): EventDate[] {
   const eventdateList: EventDate[] = [];
 
   data.forEach((event: EventDateData) => {
-    console.log("event", event);
     event.schedules.forEach((schedule) => {
       const timeslots = schedule.timeslots.map((timeslot) => ({
         id: 0,
@@ -28,6 +27,7 @@ export function eventDateBuilder(data: EventDateData[]): EventDate[] {
         state: event.state,
         timeslots: timeslots,
         price: event.price,
+        price_for_display: event.price_for_display,
         scheduleDocumentId: schedule.documentId,
       });
 

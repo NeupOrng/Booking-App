@@ -3,6 +3,7 @@ export type EventDateData = {
     title: string,
     state: string,
     price: number,
+    price_for_display?: string,
     schedules: {
         documentId: string,
         date: string,

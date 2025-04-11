@@ -8,6 +8,7 @@ export interface IEventDate {
     date: string;
     state: string;
     timeslots: ITimeslot[];
+    price_for_display?: string;
     price: number;
 }
 
@@ -20,6 +21,7 @@ export class EventDate implements IEventDate {
     state: string;
     timeslots: Timeslot[];
     price: number;
+    price_for_display: string;
 
     constructor(data: IEventDate) {
         this.id = data.id;
@@ -30,6 +32,7 @@ export class EventDate implements IEventDate {
         this.timeslots = data.timeslots.map((timeslot) => new Timeslot(timeslot)); 
         this.price = data.price;
         this.scheduleDocumentId = data.scheduleDocumentId;
+        this.price_for_display = data.price_for_display ?? "";
     }
 
     get titleForDisplay() {
@@ -41,6 +44,6 @@ export class EventDate implements IEventDate {
     }
 
     get priceForDisplay() {
-        return `${this.price.toFixed(2)}`;
+        return this.price_for_display !== "" ? this.price_for_display :`${this.price.toFixed(2)}`;
     }
 }

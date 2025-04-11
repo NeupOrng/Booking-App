@@ -73,21 +73,13 @@ export default function RegistrationForm() {
 
   const fetchAvailableDates = async () => {
     try {
-      console.log("fetching available dates", axios);
       const response = await axios.get(
         "/api/event-dates?state=open&populate[schedules][populate]=timeslots"
       );
       const data = response.data.data;
       const formattedDates = eventDateBuilder(data);
 
-      console.log("formattedDates1", formattedDates);
       setAvaialableDateState(formattedDates);
-
-      console.log(
-        "formattedDates2",
-        formattedDates,
-        formattedDates.length > 0
-      );
       // Set the first date as selected if available
     } catch (error) {
       console.error("Error fetching available dates", error);
@@ -97,7 +89,6 @@ export default function RegistrationForm() {
     try {
       const response = await axios.get("/api/config?populate=payment_qr_code");
       const data = response.data.data;
-      console.log("Config data", data);
       setQrCodeUrl(axios.getUri() + data.payment_qr_code.url);
       setTelegramUrl(data.telegram_url);
     } catch (error) {
@@ -136,7 +127,6 @@ export default function RegistrationForm() {
         },
       };
       const response = axios.post("/api/attendees", requestBody);
-      console.log("Booking response", response);
     } catch (error) {
       console.error("Error submitting personal info", error);
     } finally {
