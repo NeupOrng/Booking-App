@@ -182,7 +182,7 @@ export default function RegistrationForm() {
       <Card className="bg-white transition-all duration-500">
         <CardHeader>
           <CardTitle className="text-4xl text-center md:text-left md:text-5xl text-[#1150ab] font-bold">
-            Book Your Event
+            Book Your Slot With Us
           </CardTitle>
           <CardHeader className="text-2xl md:text-3xl font-bold text-center md:text-left md:ml-24 text-[#d54783]">
             ${selectedDate.priceForDisplay}
