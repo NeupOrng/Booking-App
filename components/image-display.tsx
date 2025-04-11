@@ -4,11 +4,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 const images = [
-  "https://puppies-yoga.com/cdn/shop/files/08_ec8991fb-4b77-4717-9eef-c1530f550214.jpg?v=1718665274&width=600",
-  "https://puppies-yoga.com/cdn/shop/files/38_1.jpg?v=1718672261&width=600",
-  "https://puppies-yoga.com/cdn/shop/files/vertopal.com_13_0a164f6f-1b77-48e6-afba-6072e8d1d5aa.jpg?v=1718672261&width=600",
-  "https://puppies-yoga.com/cdn/shop/files/33_1.jpg?v=1718672261&width=600",
-  "https://puppies-yoga.com/cdn/shop/files/34_331ea752-021d-4d36-99e5-248d62ba73cb.jpg?v=1718672261&width=600",
+  "https://kandlebar-admin.buyemerch.com/uploads/photo_5170683202233281946_y_bfe5ff2928.jpg",
+  "https://kandlebar-admin.buyemerch.com/uploads/photo_5170683202233281945_y_22de3168d5.jpg",
+  "https://kandlebar-admin.buyemerch.com/uploads/photo_5170683202233281947_y_fad32ef364.jpg"
 ]
 
 export default function ImageDisplay() {
