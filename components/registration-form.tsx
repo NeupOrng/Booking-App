@@ -174,7 +174,7 @@ export default function RegistrationForm() {
           <CardTitle className="text-4xl text-center md:text-left md:text-5xl text-[#1150ab] font-bold">
             Book Your Slot With Us
           </CardTitle>
-          <CardHeader className="text-2xl md:text-3xl font-bold text-center md:text-left md:ml-24 text-[#d54783]">
+          <CardHeader className="text-2xl md:text-3xl font-bold text-center md:text-left text-[#d54783]">
             ${selectedDate.priceForDisplay}
           </CardHeader>
           <CardDescription className="text-lg text-[#d54783]">
