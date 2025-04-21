@@ -1,4 +1,5 @@
 import { ITimeslot, Timeslot } from "./timeslot";
+import { formatDate } from "@/lib/utils";
 
 export interface IEventDate {
     id: number;
@@ -36,7 +37,7 @@ export class EventDate implements IEventDate {
     }
 
     get titleForDisplay() {
-        return `${this.title} | ${this.date}`;
+        return `${this.title} | ${formatDate(this.date)}`;
     }
 
     get keyForSelect() {

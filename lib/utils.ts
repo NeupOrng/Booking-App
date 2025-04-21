@@ -37,3 +37,26 @@ export function eventDateBuilder(data: EventDateData[]): EventDate[] {
 
   return eventdateList;
 }
+
+export function formatDate(dateStr: string) {
+  const date = new Date(dateStr);
+
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const dayName = days[date.getDay()];
+  const day = date.getDate();
+  const monthName = months[date.getMonth()];
+
+  // Get ordinal suffix
+  const getOrdinal = (n: number) => {
+    const s = ["th", "st", "nd", "rd"];
+    const v = n % 100;
+    return s[(v - 20) % 10] || s[v] || s[0];
+  };
+
+  return `${dayName} ${day}${getOrdinal(day)} ${monthName}`;
+}

@@ -189,14 +189,14 @@ export default function EventInfoSection() {
                           icon: CalendarDays,
                         },
                         {
-                          title: "Confirm Booking",
-                          description: "Receive a confirmation message via Telegram with all the details",
-                          icon: CheckCircle,
-                        },
-                        {
                           title: "Complete Payment",
                           description: "Make your payment to secure your spot at the workshop",
                           icon: Smartphone,
+                        },
+                        {
+                          title: "Confirm Booking",
+                          description: "Receive a confirmation message via Telegram with all the details",
+                          icon: CheckCircle,
                         },
                       ].map((step, index) => (
                         <div key={index} className="w-1/3 px-4 text-center">
@@ -229,14 +229,14 @@ export default function EventInfoSection() {
                         icon: CalendarDays,
                       },
                       {
-                        title: "Confirm Booking",
-                        description: "Receive a confirmation message via Telegram with all the details",
-                        icon: CheckCircle,
-                      },
-                      {
                         title: "Complete Payment",
                         description: "Make your payment to secure your spot at the workshop",
                         icon: Smartphone,
+                      },
+                      {
+                        title: "Confirm Booking",
+                        description: "Receive a confirmation message via Telegram with all the details",
+                        icon: CheckCircle,
                       },
                     ].map((step, index) => (
                       <div key={index} className="mb-8 relative z-10 pl-16">
