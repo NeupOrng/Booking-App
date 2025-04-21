@@ -113,7 +113,6 @@ export default function RegistrationForm() {
         data: {
           fullname: info.name,
           phone: info.phone,
-          email: info.email,
           paid_amount: selectedDate.price,
           timeslot: {
             connect: [selectedTimeSlot.documentId],
