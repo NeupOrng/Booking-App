@@ -38,7 +38,7 @@ export default function PersonalInfoForm({ initialValues, onSubmit}: PersonalInf
     } else if (phoneNumber.length <= 6) {
       return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`
     } else {
-      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 11)}`
     }
   }
 
@@ -51,7 +51,7 @@ export default function PersonalInfoForm({ initialValues, onSubmit}: PersonalInf
     const newErrors = {
       name: name.trim() === "",
       email: !/^\S+@\S+\.\S+$/.test(email),
-      phone: phone.replace(/\D/g, "").length < 10,
+      phone: phone.replace(/\D/g, "").length < 11,
     }
 
     setErrors(newErrors)
