@@ -48,9 +48,10 @@ export default function PersonalInfoForm({ initialValues, onSubmit}: PersonalInf
 
   const validateForm = () => {
     console.log("phone", phone.replace(/\D/g, "").length)
+    const formattedPhone = phone.replace(/\D/g, "");
     const newErrors = {
       name: name.trim() === "",
-      phone: phone.replace(/\D/g, "").length <= 9,
+      phone: formattedPhone.length < 9 && formattedPhone.length > 10,
     }
     console.log(newErrors)
     setErrors(newErrors)

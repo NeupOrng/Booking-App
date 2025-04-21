@@ -143,6 +143,7 @@ export default function RegistrationForm() {
     if (date) {
       setSelectedDate(date);
       setTimeSlotsState(date.timeslots);
+      setSelectedTimeSlot(avaialableDateState[0].timeslots[0]);
       setSelectedTimeSlot(
         new Timeslot({
           id: 0,
@@ -157,7 +158,7 @@ export default function RegistrationForm() {
   if (selectedDate.documentId === "" && avaialableDateState.length > 0) {
     setSelectedDate(avaialableDateState[0]);
     setTimeSlotsState(avaialableDateState[0].timeslots);
-    // setSelectedTimeSlot(avaialableDateState[0].timeslots[0]);
+    setSelectedTimeSlot(avaialableDateState[0].timeslots[0]);
   }
   return (
     <>
@@ -215,7 +216,7 @@ export default function RegistrationForm() {
                   <button
                     key={slot.documentId}
                     type="button"
-                    className={`px-4 py-2 text-[#d54783] rounded-full flex items-center justify-center gap-1 transition-colors ${
+                    className={`px-4 py-2 text-[#d54783] rounded-full flex border border-[#d54783] items-center justify-center gap-1 transition-colors ${
                       selectedTimeSlot?.documentId === slot.documentId
                         ? "bg-pink-100"
                         : "text-black hover:bg-gray-200"
