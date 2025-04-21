@@ -23,7 +23,6 @@ export default function PersonalInfoForm({ initialValues, onSubmit}: PersonalInf
   const [phone, setPhone] = useState(initialValues.phone)
   const [errors, setErrors] = useState({
     name: false,
-    email: false,
     phone: false,
   })
 
@@ -48,12 +47,12 @@ export default function PersonalInfoForm({ initialValues, onSubmit}: PersonalInf
   }
 
   const validateForm = () => {
+    console.log("phone", phone.replace(/\D/g, "").length)
     const newErrors = {
       name: name.trim() === "",
-      email: !/^\S+@\S+\.\S+$/.test(email),
-      phone: phone.replace(/\D/g, "").length < 11,
+      phone: phone.replace(/\D/g, "").length <= 9,
     }
-
+    console.log(newErrors)
     setErrors(newErrors)
     return !Object.values(newErrors).some(Boolean)
   }
@@ -80,21 +79,6 @@ export default function PersonalInfoForm({ initialValues, onSubmit}: PersonalInf
           className={errors.name ? "border-red-500 bg-white" : "bg-white"}
         />
         {errors.name && <p className="text-xs text-red-500">Please enter your name</p>}
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="email" className={errors.email ? "text-red-500" : ""}>
-          Email Address
-        </Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={errors.name ? "border-red-500 bg-white" : "bg-white"}
-        />
-        {errors.email && <p className="text-xs text-red-500">Please enter a valid email address</p>}
       </div>
 
       <div className="space-y-2">
