@@ -17,6 +17,9 @@ export function eventDateBuilder(data: EventDateData[]): EventDate[] {
         documentId: timeslot.documentId,
         display_name: timeslot.display_name,
         event_time_start_at: timeslot.event_time,
+        limit_participant: timeslot.limit_participant,
+        attendee_count: timeslot.attendee_count,
+        is_reach_limit: timeslot.is_reach_limit,
       }));
 
       const eventDate = new EventDate({

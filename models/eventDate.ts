@@ -44,6 +44,10 @@ export class EventDate implements IEventDate {
         return `${this.documentId}-${this.scheduleDocumentId}`;
     }
 
+    get isOutOfStock() {
+        return this.timeslots.every((timeslot) => timeslot.is_reach_limit);
+    }
+
     get priceForDisplay() {
         return this.price_for_display !== "" ? this.price_for_display :`${this.price.toFixed(2)}`;
     }

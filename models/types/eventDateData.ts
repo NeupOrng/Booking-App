@@ -10,7 +10,10 @@ export type EventDateData = {
         timeslots: {
             documentId: string,
             display_name: string,
-            event_time: string
+            event_time: string,
+            limit_participant: number,
+            attendee_count: number,
+            is_reach_limit: boolean,
         }[]
     }[]
 }

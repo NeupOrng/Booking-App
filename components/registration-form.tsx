@@ -61,6 +61,9 @@ export default function RegistrationForm() {
       documentId: "",
       display_name: "",
       event_time_start_at: "",
+      limit_participant: 0,
+      attendee_count: 0,
+      is_reach_limit: true,
     })
   );
   const initialPersonalInfo = {
@@ -74,9 +77,9 @@ export default function RegistrationForm() {
   const fetchAvailableDates = async () => {
     try {
       const response = await axios.get(
-        "/api/event-dates?state=open&populate[schedules][populate]=timeslots"
+        "/api/event/schedule/count-attendees"
       );
-      const data = response.data.data;
+      const data = response.data.data.event;
       const formattedDates = eventDateBuilder(data);
 
       setAvaialableDateState(formattedDates);
@@ -102,7 +105,7 @@ export default function RegistrationForm() {
   }, []);
   const [isFormComplete, setIsFormComplete] = useState(false);
 
-  const handlePersonalInfoSubmit = (info: {
+  const handlePersonalInfoSubmit = async (info: {
     name: string;
     email: string;
     phone: string;
@@ -117,7 +120,7 @@ export default function RegistrationForm() {
           timeslot: {
             connect: [selectedTimeSlot.documentId],
           },
-          event_date: {
+          event: {
             connect: [selectedDate.documentId],
           },
           schedule: {
@@ -125,11 +128,20 @@ export default function RegistrationForm() {
           },
         },
       };
-      const response = axios.post("/api/attendees", requestBody);
+      const response = await axios.post("/api/attendee/register", requestBody);
+      setShowPaymentDialog(true);
     } catch (error) {
       console.error("Error submitting personal info", error);
-    } finally {
-      setShowPaymentDialog(true);
+      const response = error.response;
+      if(response && response.status === 429) {
+        alert("The time slot is full. Please select another time slot.");
+        window.location.reload();
+      }
+      if(response && response.status === 409) {
+        alert("Telegram phone number already registered for this timeslot.");
+      } else {
+        alert(response.error.message)
+      }
     }
   };
 
@@ -142,22 +154,35 @@ export default function RegistrationForm() {
     if (date) {
       setSelectedDate(date);
       setTimeSlotsState(date.timeslots);
-      setSelectedTimeSlot(avaialableDateState[0].timeslots[0]);
       setSelectedTimeSlot(
         new Timeslot({
           id: 0,
           documentId: "",
           display_name: "",
           event_time_start_at: "",
+          limit_participant: 0,
+          attendee_count: 0,
+          is_reach_limit: true,
         })
-      );
+      )
+      for (const slot of date.timeslots) {
+        if (!slot.is_reach_limit) {
+          setSelectedTimeSlot(slot);
+          break;
+        }
+      }
     }
   };
 
   if (selectedDate.documentId === "" && avaialableDateState.length > 0) {
     setSelectedDate(avaialableDateState[0]);
     setTimeSlotsState(avaialableDateState[0].timeslots);
-    setSelectedTimeSlot(avaialableDateState[0].timeslots[0]);
+    for (const slot of avaialableDateState[0].timeslots) {
+      if (!slot.is_reach_limit) {
+        setSelectedTimeSlot(slot);
+        break;
+      }
+    }
   }
   return (
     <>
@@ -215,8 +240,9 @@ export default function RegistrationForm() {
                   <button
                     key={slot.documentId}
                     type="button"
+                    disabled={slot.is_reach_limit}
                     className={`px-4 py-2 text-[#d54783] rounded-full flex border border-[#d54783] items-center justify-center gap-1 transition-colors ${
-                      selectedTimeSlot?.documentId === slot.documentId
+                      selectedTimeSlot?.documentId === slot.documentId || slot.is_reach_limit
                         ? "bg-pink-100"
                         : "text-black hover:bg-gray-200"
                     }`}
@@ -237,9 +263,9 @@ export default function RegistrationForm() {
                 <Button
                   className="w-full py-4 h-16 text-xl"
                   color="#1150ab"
-                  disabled={!selectedDate || !selectedTimeSlot.isSelected}
+                  disabled={!selectedDate || !selectedTimeSlot.isSelected || selectedDate.isOutOfStock}
                 >
-                  Book Now
+                  {selectedDate.isOutOfStock ? "Out of Stock" : "Book Now"}
                 </Button>
               </SheetTrigger>
               <SheetContent
