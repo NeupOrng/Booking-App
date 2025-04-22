@@ -70,15 +70,15 @@ export default function RegistrationForm() {
     name: "",
     email: "",
     phone: "",
-  }
+  };
 
-  const [avaialableDateState, setAvaialableDateState] = useState<EventDate[]>([]);
+  const [avaialableDateState, setAvaialableDateState] = useState<EventDate[]>(
+    []
+  );
 
   const fetchAvailableDates = async () => {
     try {
-      const response = await axios.get(
-        "/api/event/schedule/count-attendees"
-      );
+      const response = await axios.get("/api/event/schedule/count-attendees");
       const data = response.data.data.event;
       const formattedDates = eventDateBuilder(data);
 
@@ -133,14 +133,14 @@ export default function RegistrationForm() {
     } catch (error) {
       console.error("Error submitting personal info", error);
       const response = error.response;
-      if(response && response.status === 429) {
+      if (response && response.status === 429) {
         alert("The time slot is full. Please select another time slot.");
         window.location.reload();
       }
-      if(response && response.status === 409) {
+      if (response && response.status === 409) {
         alert("Telegram phone number already registered for this timeslot.");
       } else {
-        alert(response.error.message)
+        alert(response.error.message);
       }
     }
   };
@@ -150,7 +150,9 @@ export default function RegistrationForm() {
   };
 
   const handleDateChange = (value: string) => {
-    const date = avaialableDateState.find((date) => date.keyForSelect === value);
+    const date = avaialableDateState.find(
+      (date) => date.keyForSelect === value
+    );
     if (date) {
       setSelectedDate(date);
       setTimeSlotsState(date.timeslots);
@@ -164,7 +166,7 @@ export default function RegistrationForm() {
           attendee_count: 0,
           is_reach_limit: true,
         })
-      )
+      );
       for (const slot of date.timeslots) {
         if (!slot.is_reach_limit) {
           setSelectedTimeSlot(slot);
@@ -223,7 +225,10 @@ export default function RegistrationForm() {
                 </SelectTrigger>
                 <SelectContent className="bg-white">
                   {avaialableDateState.map((date) => (
-                    <SelectItem key={date.keyForSelect} value={date.keyForSelect}>
+                    <SelectItem
+                      key={date.keyForSelect}
+                      value={date.keyForSelect}
+                    >
                       {date.titleForDisplay}
                     </SelectItem>
                   ))}
@@ -242,8 +247,10 @@ export default function RegistrationForm() {
                     type="button"
                     disabled={slot.is_reach_limit}
                     className={`px-4 py-2 text-[#d54783] rounded-full flex border border-[#d54783] items-center justify-center gap-1 transition-colors ${
-                      selectedTimeSlot?.documentId === slot.documentId || slot.is_reach_limit
+                      selectedTimeSlot?.documentId === slot.documentId
                         ? "bg-pink-100"
+                        : slot.is_reach_limit
+                        ? "bg-gray-300 line-through"
                         : "text-black hover:bg-gray-200"
                     }`}
                     onClick={() => setSelectedTimeSlot(slot)}
@@ -263,7 +270,11 @@ export default function RegistrationForm() {
                 <Button
                   className="w-full py-4 h-16 text-xl"
                   color="#1150ab"
-                  disabled={!selectedDate || !selectedTimeSlot.isSelected || selectedDate.isOutOfStock}
+                  disabled={
+                    !selectedDate ||
+                    !selectedTimeSlot.isSelected ||
+                    selectedDate.isOutOfStock
+                  }
                 >
                   {selectedDate.isOutOfStock ? "Out of Stock" : "Book Now"}
                 </Button>
