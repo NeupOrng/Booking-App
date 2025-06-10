@@ -4,10 +4,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 const images = [
-  "/landing/main-image.jpg",
   "/landing/image-1.jpg",
-  "/landing/image-2.jpg"
+  "/landing/image-2.jpg",
+  "/landing/image-3.jpg",
+  "/landing/image-4.jpg",
 ]
+
+const video = "/landing/main-video.mp4"
 
 export default function ImageDisplay() {
   const isDesktop = useMediaQuery("(min-width: 768px)")
@@ -18,16 +21,19 @@ export default function ImageDisplay() {
         {/* First image takes up 2 grid cells */}
         <Card className="col-span-2 overflow-hidden">
           <CardContent className="p-0">
-            <img
-              src={images[0] || "/placeholder.svg"}
-              alt="Event main image"
+            <video
+              src={video}
+              autoPlay
+              muted
+              playsInline
+              loop
               className="w-full h-auto object-cover aspect-[5/4]"
             />
           </CardContent>
         </Card>
 
         {/* Remaining images */}
-        {images.slice(1).map((image, index) => (
+        {images.map((image, index) => (
           <Card key={index + 1} className="overflow-hidden">
             <CardContent className="p-0">
               <img
@@ -46,6 +52,16 @@ export default function ImageDisplay() {
     <div className="relative">
       <Carousel className="w-full">
         <CarouselContent>
+          <CarouselItem>
+            <video
+              src={video}
+              autoPlay
+              muted
+              playsInline
+              loop
+              className="w-full h-auto object-cover aspect-video"
+            />
+          </CarouselItem>
           {images.map((image, index) => (
             <CarouselItem key={index}>
               <Card className="overflow-hidden">
@@ -68,4 +84,5 @@ export default function ImageDisplay() {
     </div>
   )
 }
+
 
