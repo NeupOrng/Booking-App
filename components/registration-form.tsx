@@ -204,6 +204,14 @@ export default function RegistrationForm() {
           <CardHeader className="text-2xl md:text-3xl font-bold text-center md:text-left text-[#d54783]">
             ${selectedDate.priceForDisplay}
           </CardHeader>
+          <CardDescription className="flex flex-col items-center md:items-start gap-2 pb-5">
+            <div className="bg-pink-50 border border-pink-200 rounded-lg p-3 w-full">
+              <p className="text-sm md:text-base font-medium text-[#d54783] leading-relaxed">
+                សម្រាប់សិស្ស សូមបង្ហាញអត្តសញ្ញាណប័ណ្ណដែលមានសុពលភាព
+                ដើម្បីទទួលបានការបញ្ចុះតម្លៃ
+              </p>
+            </div>
+          </CardDescription>
           <CardDescription className="text-lg text-[#d54783]">
             Select a date and time slot to reserve your spot
           </CardDescription>
